@@ -2,6 +2,7 @@
 Demonstration of algorithmic method for automated analysis of viewlines from hypothetical building.
 
 ![Viewline Evaluation by Ira Winder](screenshots/screenshot2.png?raw=true "Viewline Evaluation by Ira Winder")
+Video: https://www.dropbox.com/s/dboe8ryp7e7r8jz/viewLines_demo2.mov?dl=0
 
 ## How to Use
 
