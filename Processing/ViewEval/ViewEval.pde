@@ -118,7 +118,7 @@ void draw() {
   scenario.evaluateCurrent();
 }
 
-// Update camera location based on mouse inputs
+// Listeners to Update camera location based on mouse inputs
 //
 void mouseMoved() {
   cam.moved(); 
@@ -133,7 +133,7 @@ void mousePressed() {
   cam.pressed(true);
 }
 
-// Trigger functions when certain keys are pressed
+// Listeners to Trigger functions when certain keys are pressed
 //
 void keyPressed() {
   switch(key) {
@@ -162,6 +162,4 @@ void keyPressed() {
       scenario.prevWindow();
       break;
   }
-  
-  
 }
