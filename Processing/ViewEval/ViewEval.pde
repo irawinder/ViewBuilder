@@ -6,7 +6,7 @@
  * analysis of a piece of real estate's view quality. For instance,
  * if one were to stand and look out the window of a particular 
  * facade, how can we computationally generate a quantified 
- * estimate of that view's quality. 
+ * estimate of the quality of that view?
  * 
  * Method:
  *

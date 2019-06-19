@@ -143,10 +143,10 @@ void drawText() {
   commands += "\n-/+ Previous/Next Window View";
   commands += "\np - Set camera to window point of view";
   commands += "\nc - Reset Camera";
-  commands += "\n\nSelected View Window: " + (1+scenario.windowIndex) + " of " + scenario.window.size();
-  commands += "\nSelected View Window Score: " + int(10*scenario.window.get(scenario.windowIndex).viewScore)/10.0 + "%";
+  commands += "\n\nSelected View: " + (1+scenario.windowIndex) + " of " + scenario.window.size();
+  commands += "\nSelected View's Score: " + int(10*scenario.window.get(scenario.windowIndex).viewScore)/10.0 + "%";
   if(scenario.viewScore != 0) {
-    commands += "\nAverage View Score: " + int(10*scenario.viewScore)/10.0 + "%";
+    commands += "\nGross View Score of Building: " + int(10*scenario.viewScore)/10.0 + "%";
   }
   textAlign(LEFT, TOP);
   fill(0, 100);
