@@ -6,6 +6,7 @@ void drawCityScape() {
   //
   background(VIEW_ELEMENT.get("sky").col);
   directionalLight(200, 200, 200, -50, -25, -50);
+  //noLights();
   
   // Determine superficial scaler for grid values
   //
@@ -129,8 +130,10 @@ void drawViewAnalysis() {
     noFill(); stroke(0); strokeWeight(5);
     rect(10, 10, width/2, height/2);
     noStroke(); strokeWeight(0.5);
+    
+    drawText();
   }
-  drawText();
+  
 }
 
 // Draw Key Command Descriptions and average Score
