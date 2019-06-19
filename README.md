@@ -1,7 +1,7 @@
 # ViewEval
 Demonstration of algorithmic method for automated analysis of viewlines from hypothetical building.
 
-![Viewline Evaluation by Ira Winder](screenshots/screenshot.png?raw=true "Viewline Evaluation by Ira Winder")
+![Viewline Evaluation by Ira Winder](screenshots/screenshot2.png?raw=true "Viewline Evaluation by Ira Winder")
 
 ## How to Use
 
@@ -71,3 +71,4 @@ Demonstration of algorithmic method for automated analysis of viewlines from hyp
     | Water         | #0000FF (Blue) | +100                |
     | Tree          | #00FF00 (Green)| +100                |
     | Landmark      | #FF00FF (Pink) | +500                |
+    | ------------- | -------------- | ------------------- |
