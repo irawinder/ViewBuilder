@@ -1,31 +1,84 @@
-import java.util.Map;
-import java.util.Iterator;
+/* View Evaluation Analysis Demonstration
+ * Ira Winder: jiw@mit.edu, winder@ar-ma.net
+ *
+ * The purpose of this algorithmic "sketch" is to demonstrate how 
+ * one might implement a relatively efficient and straight-forward
+ * analysis of a piece of real estate's view quality. For instance,
+ * if one were to stand and look out the window of a particular 
+ * facade, how can we computationally generate a quantified 
+ * estimate of that view's quality. 
+ * 
+ * Method:
+ *
+ * 1. This demonstration first generates a random cityscape that 
+ *    includes elements of land, water, sky, buildings, and trees 
+ *    rendered in 3D geometry with false colors associated with 
+ *    each element. 
+ * 2. A building representing our "development", and consequently 
+ *    the views we would like to analyze, is randomly placed on 
+ *    our cityscape. The building contains a number of viewpoints, 
+ *    one for each side of each floor of the building. Therefore,
+ *    a 10-story building with a rectangular footprint has 40 
+ *    viewpoints we wish to analyze.
+ * 3. A virtual camera is placed at each of the viewpoints, 
+ *    pointing perpendicular away from the building's surface. 
+ *    The resulting views are saved to memory as two-dimensional 
+ *    projections (i.e. bitmaps).
+ * 4. Each bitmap is simplified as a low resolution matrix of
+ *    colors that are sampled directly from the bitmap. The 
+ *    colors in the matrix are cross-referenced with a table
+ *    of known false colors associated with each element in order
+ *    to generate a crude map of which elements are being seen in
+ *    each part of a view. The sampled colors may be slightly
+ *    different from the reference colors, so a sum-squares method
+ *    is used to determine the least-differnt matching color based
+ *    on hue, saturation, and brightness.
+ * 5. The element table includes a "hard-coded" weight that 
+ *    describes how desirable an element is to have in one's view.
+ *    for example, a water pixel is weighted as +100 view quality,
+ *    while the view of another building facade is -50 view quality.
+ *    These coefficients are placeholders, for now, but could be 
+ *    updated to be more accurate with further statistical analysis.
+ *
+ * Note to developers: Those intending to learn the algorithm with 
+ * the intention of rebuilding the logic in their own environment, 
+ * the "Model" Tab will likely be most relevant.
+ *
+ * Class Structures:
+ *
+ *    Element() -> View() -> Facade()
+ *                   
+ *    CityScape()
+ */
+ 
+// Java Libraries Required (Aside from processing.core.*, which is
+// automatically loaded into Processing IDE).
 
-// show from point of view of specific floor
-boolean scenarioView;
-int viewIndex = 21;
+  // Includes the HashMap() class, which we use to make a dictionary
+  //
+  import java.util.Map; 
+  
+  // Tools that allow us to iterate through HashMap()
+  //
+  import java.util.Iterator; 
 
-// automatically calculate all scores
-boolean calcViewScores;
-
+// 1. Setup runs FIRST and ONCE upon program execution
+//
 void setup() {
   size(800, 400, P3D);
   
-  int seed = 0;
-  initModel(0);
+  // Initialize our View Evaluation Model
+  //
+  int world_seed = 0;
+  initModel(world_seed);
   
+  // Initialize our 3D Camera
+  //
   initCamera();
-  
-  scenarioView = false;
-  viewIndex = 21;
-  
-  calcViewScores = false;
 }
 
-int randomInt(float range) {
-  return int(random(0, range));
-}
-
+// 2. Draw runs on an infinite loop after setup() is complete
+//
 void draw() {
   
   // Update camera position settings for a number of frames after key updates
@@ -34,165 +87,81 @@ void draw() {
     cam.moved();
   }
   
-  // Draw and Calculate 3D Graphics 
+  // Draw 3D Graphics 
+          
+          // Turn baseline 3D Camera On
+          hint(ENABLE_DEPTH_TEST);
+          cam.on();
+  
+          drawCityScape();
+  
+  // Draw 2D Graphics
+          
+          // Turn baseline 3D Camera Off
+          hint(DISABLE_DEPTH_TEST);
+          cam.off();
+          
+          // Draw Slider Bars for Controlling Zoom and Rotation
+          // ... if view isn't currently being evaluated
+          //
+          if(!scenario.setCamera && !scenario.calcViewScores) {
+            cam.drawControls();
+          }
+          
+          // Draw view of current window index and score overlay in upper left corner
+          //
+          drawViewAnalysis();
+  
+  // Run Evaluation Algorithm on current window
+  // iterates windowIndex to next position
   //
-  hint(ENABLE_DEPTH_TEST);
-  cam.on();
-  
-  // Draw Environment in 3D
-  //
-  background(VIEW_ELEMENT.get("sky").col);
-  directionalLight(200, 200, 200, -50, -25, -50);
-  
-  float uv_scale = GRID_SCALE;
-  float z_scale = 1;
-  
-  if(scenarioView || calcViewScores) {
-    scenario.window.get(viewIndex).facadeCam(uv_scale, z_scale);
-  } else {
-    translate(0.5*world.U, 0.5*world.V);
-  }
-  
-  drawEnvironment(uv_scale, z_scale);
-  
-  // 2D Stuff
-  //
-  hint(DISABLE_DEPTH_TEST);
-  cam.off();
-  
-  if(!scenarioView && !calcViewScores) {
-    // Draw Slider Bars for Controlling Zoom and Rotation
-    //
-    cam.drawControls();
-  }
-  
-  PImage snap = scenario.window.get(viewIndex).capture;
-  PGraphics s = scenario.window.get(viewIndex).score_graphic;
-  if(snap != null && !calcViewScores) {
-    image(snap, 10, 10, width/2, height/2);
-    image(s, 10, 10, width/2, height/2);
-    noFill(); stroke(0); strokeWeight(5);
-    rect(10, 10, width/2, height/2);
-    noStroke(); strokeWeight(0.5);
-  }
-  
-  if(calcViewScores) {
-    
-    scenario.window.get(viewIndex).capture();
-    
-    if(viewIndex < scenario.window.size() - 1) {
-      viewIndex++;
-    } else {
-      calcViewScores = false;
-    }
-  }
+  scenario.evaluateCurrent();
 }
 
-void drawEnvironment(float uv_scale, float z_scale) {
-  
-  // Draw Land
-  fill(VIEW_ELEMENT.get("land").col);
-  for(int u = 0; u<world.U; u++) {
-    for(int v = 0; v<world.V; v++) {
-      pushMatrix();
-      float x = uv_scale*u;
-      float y = uv_scale*v;
-      float h = z_scale*world.land[u][v];
-      translate(x, y, 0.5*h);
-      box(uv_scale, uv_scale, h);
-      popMatrix();
-    }
-  }
-  
-  // Draw Ocean
-  fill(VIEW_ELEMENT.get("water").col);
-  pushMatrix(); translate(-5000, -5000, world.OCEAN*z_scale); // ocean level
-  rect(0, 0, uv_scale*world.U + 10000, uv_scale*world.V + 10000);
-  popMatrix();
-  
-  // Draw Buildings
-  fill(VIEW_ELEMENT.get("building").col);
-  for(PVector location: world.buildings) {
-    pushMatrix();
-    int u = int(location.x);
-    int v = int(location.y);
-    float x = uv_scale*u;
-    float y = uv_scale*v;
-    float z = z_scale*world.land[u][v];
-    float h = location.z;
-    translate(x, y, h + 0.5*z);
-    box(0.75*uv_scale, 0.75*uv_scale, z);
-    popMatrix();
-  }
-  
-  // Draw Trees
-  fill(VIEW_ELEMENT.get("tree").col);
-  for(PVector location: world.trees) {
-    pushMatrix();
-    int u = int(location.x);
-    int v = int(location.y);
-    float x = uv_scale*u;
-    float y = uv_scale*v;
-    float z = z_scale*world.land[u][v];
-    float h = location.z;
-    translate(x, y, h + 0.5*z);
-    box(0.25*uv_scale, 0.25*uv_scale, z);
-    popMatrix();
-  }
-  
-  // Draw Scenario Building
-  for(Facade f: scenario.window) {
-    float hue = map(f.viewScore, 0, 100, 0, 100);
-    colorMode(HSB);
-    fill(hue, 255, 255);
-    colorMode(RGB);
-    stroke(255); strokeWeight(0.5);
-    beginShape();
-    for(PVector v: f.points) vertex(uv_scale*v.x, uv_scale*v.y, z_scale*v.z);
-    endShape();
-    fill(255); noStroke();
-    pushMatrix(); translate(uv_scale*f.viewFrom.x, uv_scale*f.viewFrom.y, z_scale*f.viewFrom.z);
-    sphere(0.25);
-    popMatrix();
-  }
-}
-
+// Update camera location based on mouse inputs
+//
 void mouseMoved() {
   cam.moved(); 
 }
-
 void mouseReleased() {
   cam.moved();    
 }
-
 void mouseClicked() {
   cam.moved();
 }
-
 void mousePressed() {
   cam.pressed(true);
 }
 
+// Trigger functions when certain keys are pressed
+//
 void keyPressed() {
   switch(key) {
-    case 'r':
+    case 'r': // randomly generate a new Cityscape
       int random_seed = int(random(-1000, 1000));
       initModel(random_seed);
+      initCamera();
       break;
-    case 'c':
+    case 'c': // reset camera view
+      scenario.setCamera = false;
       cam.reset();
       break;
-    case 'p':
-      scenarioView = !scenarioView;
+    case 'p': // toggle camera position to facade POV
+      scenario.setCamera = !scenario.setCamera;
       break;
-    case 's':
-      if(scenarioView) scenario.window.get(viewIndex).capture();
-      break;
-    case 'g':
-      if(!calcViewScores) {
-        calcViewScores = true;
-        viewIndex = 0;
+    case 'e': // Evaluate the scores for all possible views
+      if(!scenario.calcViewScores) {
+        scenario.calcViewScores = true;
+        scenario.windowIndex = 0;
       }
       break;
+    case '+': // Next Window Index
+      scenario.nextWindow();
+      break;
+    case '-': // Previous Window Index
+      scenario.prevWindow();
+      break;
   }
+  
+  
 }
