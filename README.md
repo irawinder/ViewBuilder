@@ -1,7 +1,7 @@
 # ViewEval
 Demonstration of algorithm method for automated analysis of views from a hypothetical building.
 
-![Viewline Evaluation by Ira Winder](screenshots/Screen%20Shot%202018-03-11%20at%205.18.52%20AM.png?raw=true "Viewline Evaluation by Ira Winder")
+![Viewline Evaluation by Ira Winder](screenshots/screenshot.png?raw=true "Viewline Evaluation by Ira Winder")
 
 ## How to Use
 
