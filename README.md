@@ -42,7 +42,7 @@ Demonstration of algorithmic method for automated analysis of viewlines from hyp
     to generate a crude map of which elements are being seen in
     each part of a view. The sampled colors may be slightly
     different from the reference colors, so a sum-squares method
-    is used to determine the least-differnt matching color based
+    is used to determine the least-different matching color based
     on hue, saturation, and brightness.
  5. The element table includes a "hard-coded" weight that 
     describes how desirable an element is to have in one's view.
