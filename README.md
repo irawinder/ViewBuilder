@@ -60,3 +60,14 @@ Demonstration of algorithmic method for automated analysis of viewlines from hyp
     Element() -> View() -> Facade()
                    
     CityScape()
+    
+ Example View Element Data Structure
+ 
+    | Element Name  | False Color    | View Quality Weight |
+    | ------------- | -------------  | -------------       |
+    | Sky           | #FFFFFF (White)| +60                 |
+    | Land          | #FF0000 (Red)  | +50                 |
+    | Building      | #666666 (Gray) | -50                 |
+    | Water         | #0000FF (Blue) | +100                |
+    | Tree          | #00FF00 (Green)| +100                |
+    | Landmark      | #FF00FF (Pink) | +500                |
