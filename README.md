@@ -64,7 +64,7 @@ Demonstration of algorithmic method for automated analysis of viewlines from hyp
  Example View Element Data Structure
  
     | Element Name  | False Color    | View Quality Weight |
-    | ------------- | -------------  | -------------       |
+    | ------------- | -------------- | ------------------- |
     | Sky           | #FFFFFF (White)| +60                 |
     | Land          | #FF0000 (Red)  | +50                 |
     | Building      | #666666 (Gray) | -50                 |
