@@ -71,4 +71,3 @@ Demonstration of algorithmic method for automated analysis of viewlines from hyp
     | Water         | #0000FF (Blue) | +100                |
     | Tree          | #00FF00 (Green)| +100                |
     | Landmark      | #FF00FF (Pink) | +500                |
-    | ------------- | -------------- | ------------------- |
