@@ -7,7 +7,7 @@ Demonstration of algorithmic method for automated analysis of viewlines from hyp
 
 1. Make sure you have installed the latest version of [Java](https://www.java.com/verify/)
 2. Download [Processing 3](https://processing.org/download/)
-3. Clone or download the repository to your computer
+3. Clone or download this Github repository to your computer
 4. Open and run "Processing/ViewEval/ViewEval.pde" with Processing 3
 
 ## Explanation of Method
