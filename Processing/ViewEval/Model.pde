@@ -272,8 +272,8 @@ class View {
     
     // number of cells to horizontally divide bitmap
     //
-    int div_u = 30; 
-    int div_v = 15; 
+    int div_u = 40; 
+    int div_v = 20; 
     
     score_raster = new Float[div_u][div_v];
     res_u = float(width)/div_u;
