@@ -152,7 +152,7 @@ void drawText() {
   }
   textAlign(LEFT, TOP);
   fill(0, 100);
-  rect(10, height/2 + 20, 0.3*width + 10, 0.4*height + 10, 5);
+  rect(10, height/2 + 20, width/2, 170, 5);
   fill(255);
   text(commands, 15, height/2 + 25);
 }

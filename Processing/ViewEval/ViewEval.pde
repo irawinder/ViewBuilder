@@ -69,7 +69,7 @@
 // 1. setup() runs FIRST and ONCE upon program execution
 //
 void setup() {
-  size(800, 400, P3D);
+  size(1000, 550, P3D);
   //fullScreen(P3D);
   
   // Initialize our View Evaluation Model
