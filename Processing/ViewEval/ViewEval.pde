@@ -66,10 +66,11 @@
   //
   import java.util.Iterator; 
 
-// 1. Setup runs FIRST and ONCE upon program execution
+// 1. setup() runs FIRST and ONCE upon program execution
 //
 void setup() {
   size(800, 400, P3D);
+  //fullScreen(P3D);
   
   // Initialize our View Evaluation Model
   //
@@ -81,7 +82,7 @@ void setup() {
   initCamera();
 }
 
-// 2. Draw runs on an infinite loop after setup() is complete
+// 2. draw() runs on an infinite loop after setup() is complete
 //
 void draw() {
   

@@ -187,10 +187,10 @@ class View {
   //
   Float[][] score_raster;
   
-  // Resolution of the score_raster 
+  // Resolution of the score_raster in both u and v directions
   // (i.e. 1 cell = [res] pixels)
   //
-  int res;
+  int res_u, res_v;
   
   // A simplified graphic that renders the score of each 
   // cell in the score_raster
@@ -206,14 +206,6 @@ class View {
     this.h = h;
     this.viewFrom = viewFrom;
     this.viewDirection = viewDirection;
-    
-    // number of cells to horizontally divide bitmap
-    //
-    float div = 2*20.0; 
-    
-    int v = int(div*height/width);
-    score_raster = new Float[int(div)][v];
-    res = width/int(div);
     viewScore = 0;
     
     // Calculation of window corner locations
@@ -267,16 +259,30 @@ class View {
   // the false color of the image.
   //
   float evaluateView(PImage view) {
+    
+    // number of cells to horizontally divide bitmap
+    //
+    int div_u = 30; 
+    int div_v = 15; 
+    
+    score_raster = new Float[div_u][div_v];
+    res_u = width/div_u;
+    res_v = height/div_v;
+    
     float score = 0;
-    for(int i=res/2; i<view.width; i+=res) {
-      for(int j=res/2; j<view.height; j+=res) {
+    for(int i=0; i<div_u; i++) {
+      for(int j=0; j<div_v; j++) {
         
-        // retrieve the color value at a given location in the image
+        // Retrieve the color value at a given location in the image
         //
-        color c = get(i, j); 
-        
+        int x = int( res_u * (0.5 + i) );
+        int y = int( res_v * (0.5 + j) );
+        color c = view.get(x, y); 
         Element current = nearest(c);
-        score_raster[i/res][j/res] = current.weight;
+        
+        // Set Scores based on reference element
+        //
+        score_raster[i][j] = current.weight;
         score += current.weight;
       }
     }
@@ -298,7 +304,7 @@ class View {
         score_graphic.colorMode(HSB);
         score_graphic.fill(hue, 255, 255, 100);
         score_graphic.colorMode(RGB);
-        score_graphic.rect(i*res, j*res, res, res);
+        score_graphic.rect(i*res_u, j*res_v, res_u, res_v);
       }
     }
     score_graphic.endDraw();
