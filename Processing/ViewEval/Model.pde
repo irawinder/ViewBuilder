@@ -190,7 +190,7 @@ class View {
   // Resolution of the score_raster in both u and v directions
   // (i.e. 1 cell = [res] pixels)
   //
-  int res_u, res_v;
+  float res_u, res_v;
   
   // A simplified graphic that renders the score of each 
   // cell in the score_raster
@@ -266,8 +266,8 @@ class View {
     int div_v = 15; 
     
     score_raster = new Float[div_u][div_v];
-    res_u = width/div_u;
-    res_v = height/div_v;
+    res_u = float(width)/div_u;
+    res_v = float(height)/div_v;
     
     float score = 0;
     for(int i=0; i<div_u; i++) {
