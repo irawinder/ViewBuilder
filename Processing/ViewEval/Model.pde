@@ -26,10 +26,10 @@ class Element {
 // resembles the input color passed to it using a least-
 // sum-squares method.
 //
-Element nearest(color input) {
+Element nearest(HashMap<String, Element> reference, color input) {
   Element nearest = null;
   float shortest_distance = Float.POSITIVE_INFINITY;
-  for(Map.Entry e : VIEW_ELEMENT.entrySet()) {
+  for(Map.Entry e : reference.entrySet()) {
     Element element = (Element)e.getValue();
     float distance = sq(hue(input) - hue(element.col)) + 
                      sq(saturation(input) - saturation(element.col)) + 
@@ -288,7 +288,7 @@ class View {
         int x = int( res_u * (0.5 + i) );
         int y = int( res_v * (0.5 + j) );
         color c = view.get(x, y); 
-        Element current = nearest(c);
+        Element current = nearest(VIEW_ELEMENT, c);
         
         // Set Scores based on reference element
         //
