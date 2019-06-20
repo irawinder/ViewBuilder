@@ -14,16 +14,19 @@
  *    includes elements of land, water, sky, buildings, and trees 
  *    rendered in 3D geometry with false colors associated with 
  *    each element. 
+ *
  * 2. A building representing our "development", and consequently 
  *    the views we would like to analyze, is randomly placed on 
  *    our cityscape. The building contains a number of viewpoints, 
  *    one for each side of each floor of the building. Therefore,
  *    a 10-story building with a rectangular footprint has 40 
  *    viewpoints we wish to analyze.
+ *
  * 3. A virtual camera is placed at each of the viewpoints, 
  *    pointing perpendicular away from the building's surface. 
  *    The resulting views are saved to memory as two-dimensional 
  *    projections (i.e. bitmaps).
+ *
  * 4. Each bitmap is simplified as a low resolution matrix of
  *    colors that are sampled directly from the bitmap. The 
  *    colors in the matrix are cross-referenced with a table
@@ -33,6 +36,7 @@
  *    different from the reference colors, so a sum-squares method
  *    is used to determine the least-differnt matching color based
  *    on hue, saturation, and brightness.
+ *
  * 5. The element table includes a "hard-coded" weight that 
  *    describes how desirable an element is to have in one's view.
  *    for example, a water pixel is weighted as +100 view quality,
