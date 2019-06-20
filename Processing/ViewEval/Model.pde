@@ -228,9 +228,19 @@ class View {
   // Set the 3D camera position and angle at a given view
   //
   void viewCam(float uv_scale, float z_scale) {
-    camera(uv_scale*viewFrom.x, uv_scale*viewFrom.y, z_scale*viewFrom.z, 
-           uv_scale*(viewFrom.x + viewDirection.x), uv_scale*(viewFrom.y + viewDirection.y), z_scale*(viewFrom.z + + viewDirection.z),
-           0, 0, -1);
+    
+    float iX = uv_scale*viewFrom.x;
+    float iY = uv_scale*viewFrom.y;
+    float iZ = z_scale*viewFrom.z;
+    float oX = uv_scale*(viewFrom.x + viewDirection.x);
+    float oY = uv_scale*(viewFrom.y + viewDirection.y);
+    float oZ = z_scale*(viewFrom.z + viewDirection.z);
+    float rX =  0;
+    float rY =  0;
+    float rZ = -1;
+    
+    noLights();
+    camera(iX, iY, iZ, oX, oY, oZ, rX, rY, rZ);
   }
   
   // Capture a given view, evaluate its score, and render the 

@@ -6,7 +6,6 @@ void drawCityScape() {
   //
   background(VIEW_ELEMENT.get("sky").col);
   directionalLight(200, 200, 200, -50, -25, -50);
-  //noLights();
   
   // Determine superficial scaler for grid values
   //
