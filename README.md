@@ -1,4 +1,4 @@
-# ViewEval
+# ViewBuilder
 Demonstration of algorithmic method for automated analysis of viewlines from hypothetical building.
 
 ![Viewline Evaluation by Ira Winder](screenshots/screenshot2.png?raw=true "Viewline Evaluation by Ira Winder")
@@ -9,7 +9,7 @@ Video: https://www.dropbox.com/s/dboe8ryp7e7r8jz/viewLines_demo2.mov?dl=0
 1. Make sure you have installed the latest version of [Java](https://www.java.com/verify/)
 2. Download [Processing 3](https://processing.org/download/)
 3. Clone or download this Github repository to your computer
-4. Open and run "Processing/ViewEval/ViewEval.pde" with Processing 3
+4. Open and run "Processing/ViewBuilder/Main/Main.pde" with Processing 3
 
 ## Explanation of Method
 
